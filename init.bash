@@ -7,6 +7,7 @@ case $- in
     *) return ;;
 esac
 
+. "$conf_path"/PATH.bash
 . "$conf_path"/bash.bash
 . "$conf_path"/general.bash
 . "$conf_path"/alias.bash
