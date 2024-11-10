@@ -47,6 +47,7 @@ fi
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
+    debchrt=${debian_chroot:+($debian_chroot)}
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -70,23 +71,20 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1=$'\u250c\u2500\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
-    PS1+=$'\n\u2514\$ '
+PS1=$debchrt
+if [ "$color_prompt" = 'yes' ]; then
+    . $conf_path/PS1s/color256.bash
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    # PS1='Hello \u:\w\$ '
+    . $conf_path/PS1s/nocolor.bash
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
     xterm* | rxvt*)
-        # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u\a\]$PS1"
-        # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}Hello \u: \w\a\]$PS1"
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
         ;;
     *) ;;
 esac
 
+unset debchrt
