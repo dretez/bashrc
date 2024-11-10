@@ -28,3 +28,9 @@ alias ..='cd ..'
 alias cd..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+# less aliases
+alias less='less -r'    # less with colors
+
+# git aliases
+alias gitd='git diff --color=always'
